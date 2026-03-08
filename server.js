@@ -1,9 +1,16 @@
 import express from "express";
+import Pool from "pg";
 
 const app=express();
 app.use(express.json());
 
-const db={};
+const pool=new Pool.Pool({
+    host:"db",
+    user:"postgres",
+    database:"urlshortener",
+    password:"password",
+    port:5432
+});
 
 
 function generateShort(){
@@ -13,9 +20,14 @@ function generateShort(){
 app.post("/create",(req,res)=>{
     const {url}=req.body;
     const short=generateShort();
-    db[short]=url;
-    res.json({short});
-})
+    pool.query('INSERT INTO urls(short, url) VALUES($1, $2)', [short, url], (err, res) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Error saving URL');
+        }
+        res.json({short});
+    });
+});
 
 app.get("/:short",(req,res)=>{
     const url=db[req.params.short];
