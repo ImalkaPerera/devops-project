@@ -16,6 +16,9 @@ const pool=new Pool.Pool({
 function generateShort(){
     return Math.random().toString(36).substring(2,8);
 }
+app.get("/", (req, res) => {
+  res.send("DevOps URL Shortener API running 🚀");
+});
 
 app.post("/create",(req,res)=>{
     const {url}=req.body;
@@ -35,6 +38,6 @@ app.get("/:short",(req,res)=>{
     res.redirect(url);
 });
 
-app.listen(3000,()=>{
-    console.log("Server running on port 3000");
+app.listen(3000, "0.0.0.0", () => {
+  console.log("Server running on port 3000");
 });
