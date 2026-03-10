@@ -17,7 +17,7 @@ function generateShort(){
     return Math.random().toString(36).substring(2,8);
 }
 app.get("/", (req, res) => {
-  res.send("DevOps URL Shortener API running :success");
+  res.send("DevOps URL Shortener API running :thiviru pakaya");
 });
 
 app.post("/create",(req,res)=>{
